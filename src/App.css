@@ -7,7 +7,10 @@ html {
   text-align: center;
   margin: auto;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
-  
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
 }
 
 .button {
@@ -27,9 +30,30 @@ html {
   color: black;
 }
 
-.imgBackground {
-  z-index: 2;
-  background: black
+.pokeImages {
+  display: flex;
+  flex-direction: column;
+}
+/* .pokeballImage {
+  max-width: 35%;
+  height: auto;
+  animation-name: spinPokeball;
+  animation-duration: 6s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+} */
+
+@keyframes spinPokeball {
+  100% {transform: rotate(360deg);}
+}
+
+.visuals {
+  display: flex;
+  flex-direction: column;
+}
+
+.statsVisuals {
+  
 }
 
 

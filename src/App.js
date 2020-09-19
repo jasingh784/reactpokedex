@@ -91,10 +91,12 @@ class App extends React.Component {
     } else {
       return (
         <div className="App">
-          <button className="button" onClick={this.handleClickPrev}>Prev</button>
-          <PokemonImage image = {pokemon.sprites} />
-          <button className="button" onClick={this.handleClickNext}>Next</button>
-          <StatsComponent 
+          <div className="visuals">
+            <PokemonImage image = {pokemon.sprites} />
+            <button className="button" onClick={this.handleClickPrev}>Prev</button>
+            <button className="button" onClick={this.handleClickNext}>Next</button>
+          </div>
+          <StatsComponent className="statsVisuals"
             name={this.state.pokemon.species.name}
             types={this.state.pokemon.types}
             
