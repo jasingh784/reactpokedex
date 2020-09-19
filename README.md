@@ -1,3 +1,5 @@
+A pokemon pokedex using react. Using the pokeapi (https://pokeapi.co/) to get pokemon information. Currently when app is first loaded an initial call is made to the pokeapi to display pokemon number 1. There are 2 buttons, prev and next. When these buttons are pressed an api call is made to get the previous or next pokemon based on pokemon number. 
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
