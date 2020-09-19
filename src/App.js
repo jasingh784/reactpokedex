@@ -1,26 +1,109 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import PokemonImage from './components/PokemonImage';
+import StatsComponent from './components/StatsComponent';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      baseUrl: 'https://pokeapi.co/api/v2/pokemon/',
+      currentPokemonNum: 1,
+      totalNumOfPokemon: 893,
+      error: null,
+      isLoaded: false,
+      pokemon: {}
+    };
+
+    this.handleClickNext = this.handleClickNext.bind(this);
+    this.handleClickPrev = this.handleClickPrev.bind(this);
+  }
+
+  handleClickNext() {
+    if(this.state.currentPokemonNum < this.state.totalNumOfPokemon) {
+      this.setState((state) => ({
+        currentPokemonNum: state.currentPokemonNum + 1
+      }));
+    } else {
+      this.setState((state) => ({
+        currentPokemonNum: state.totalNumOfPokemon
+      }));
+    }
+  }
+
+  handleClickPrev() {
+    console.log(this.state);
+    if(this.state.currentPokemonNum === 1) {
+      this.setState((state) => ({
+        currentPokemonNum: 1
+      }));
+    } else {
+      this.setState((state) => ({
+        currentPokemonNum: state.currentPokemonNum - 1
+      }));
+    }
+  }
+
+  componentDidMount() {
+    let queryUrl = this.state.baseUrl + this.state.currentPokemonNum;
+    console.log(queryUrl)
+    fetch(queryUrl) //call the api url
+      .then(res => res.json())                        //make the response into json
+      .then((result) => {                       // if all is good, set state
+        this.setState({                       
+          isLoaded: true,
+          pokemon: result
+        });
+      }, (error) => {                         //if something went wrong
+        this.setState({                       //set state with error code
+          isLoaded: true,
+          error: error
+        });
+      })
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if(prevState.currentPokemonNum !== this.state.currentPokemonNum) {
+      let queryUrl = this.state.baseUrl + this.state.currentPokemonNum;
+      console.log(queryUrl)
+      fetch(queryUrl) //call the api url
+        .then(res => res.json())                        //make the response into json
+        .then((result) => {                       // if all is good, set state
+          this.setState({                       
+            isLoaded: true,
+            pokemon: result
+          });
+        }, (error) => {                         //if something went wrong
+          this.setState({                       //set state with error code
+            isLoaded: true,
+            error: error
+          });
+        })
+      }
+  }
+
+  render() {
+    const {error, isLoaded, pokemon} = this.state;
+    if(error) {
+      return <div>Error: {error.message}</div>
+    } else if (!isLoaded) {
+      return <div>Loading...</div>
+    } else {
+      return (
+        <div className="App">
+          <button className="button" onClick={this.handleClickPrev}>Prev</button>
+          <PokemonImage image = {pokemon.sprites} />
+          <button className="button" onClick={this.handleClickNext}>Next</button>
+          <StatsComponent 
+            name={this.state.pokemon.species.name}
+            types={this.state.pokemon.types}
+            
+            />
+        </div>
+      )
+    }
+
+  }
 }
 
 export default App;
